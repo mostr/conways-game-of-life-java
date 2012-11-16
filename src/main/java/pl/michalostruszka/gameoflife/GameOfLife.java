@@ -2,24 +2,24 @@ package pl.michalostruszka.gameoflife;
 
 public class GameOfLife {
 
-  private GameBoard currentState;
+    private Board currentState;
 
-  public GameOfLife(GameBoard initialState) {
-    currentState = initialState;
-  }
+    public GameOfLife(Board initialState) {
+        currentState = initialState;
+    }
 
-  public GameOfLife() {
-    currentState = new GameBoard();
-  }
+    public GameOfLife() {
+        currentState = new Board();
+    }
 
-  public GameBoard currentBoardState() {
-    return currentState;
-  }
+    public Board currentBoardState() {
+        return currentState;
+    }
 
-  public void tick(int ticksCount) {
-		for(int i=0; i<ticksCount; i++) {
-			this.currentState = currentState.nextState();
-		}
-  }
+    public void tick(int ticksCount) {
+        for (int i = 0; i < ticksCount; i++) {
+            this.currentState = currentState.nextState();
+        }
+    }
 
 }
