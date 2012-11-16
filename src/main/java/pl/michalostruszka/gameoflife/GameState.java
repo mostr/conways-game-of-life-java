@@ -46,4 +46,7 @@ public class GameState {
     return cells != null ? cells.hashCode() : 0;
   }
 
+  public int countLiveNeighboursOf(Cell cell) {
+    return 0;
+  }
 }
