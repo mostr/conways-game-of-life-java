@@ -27,7 +27,7 @@ public class Cell {
     this.isLive = fromCell.isLive;
   }
 
-  public static Cell atPosition(int x, int y) {
+  public static Cell at(int x, int y) {
     return new Cell(x, y);
   }
 
@@ -46,7 +46,7 @@ public class Cell {
     Set<Cell> expectedNeighbours = new HashSet<Cell>();
     int[][] neighboursRelativeCoords = {{0, 1}, {1, 1}, {1, 0}, {1, -1}, {0, -1}, {-1, -1}, {-1, 0}, {-1, 1}};
     for (int[] relativeCoord : neighboursRelativeCoords) {
-      Cell cell = Cell.atPosition(this.x + relativeCoord[0], this.y + relativeCoord[1]);
+      Cell cell = Cell.at(this.x + relativeCoord[0], this.y + relativeCoord[1]);
       cell.isLive = false;
       expectedNeighbours.add(cell);
     }

@@ -1,12 +1,5 @@
 package pl.michalostruszka.gameoflife;
 
-/**
- * Created with IntelliJ IDEA.
- * User: mostruszka
- * Date: 16.11.12
- * Time: 09:54
- * To change this template use File | Settings | File Templates.
- */
 public class GameOfLife {
 
   private GameBoard currentState;
@@ -23,8 +16,10 @@ public class GameOfLife {
     return currentState;
   }
 
-  public void tick() {
-    this.currentState = currentState.nextState();
+  public void tick(int ticksCount) {
+		for(int i=0; i<ticksCount; i++) {
+			this.currentState = currentState.nextState();
+		}
   }
 
 }

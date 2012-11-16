@@ -4,19 +4,12 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * Created with IntelliJ IDEA.
- * User: mostruszka
- * Date: 16.11.12
- * Time: 09:55
- * To change this template use File | Settings | File Templates.
- */
 public class GameBoard {
 
   private Set<Cell> cells = new HashSet<Cell>();
 
   public void setLiveCellAt(int x, int y) {
-    cells.add(Cell.atPosition(x, y));
+    cells.add(Cell.at(x, y));
   }
 
   public int countLiveNeighboursOf(Cell cell) {
@@ -55,25 +48,6 @@ public class GameBoard {
     return cells != null ? cells.hashCode() : 0;
   }
 
-/*
-  public GameBoard nextState() {
-    GameBoard nextBoard = new GameBoard();
-    for (Cell currentCell : cells) {
-      Cell nextCellState = currentCell.nextState(this);
-      if(nextCellState.isLive()) {
-        nextBoard.addLiveCell(currentCell);
-      }
-      for(Cell neighbour : currentCell.neighbours()) {
-        Cell nextNeighbourState = neighbour.nextState(this);
-        if(nextNeighbourState.isLive()) {
-          nextBoard.addLiveCell(nextNeighbourState);
-        }
-      }
-    }
-    return nextBoard;
-  }
-*/
-
   public GameBoard nextState() {
     GameBoard nextBoard = new GameBoard();
     for (Cell currentCell : cells) {
@@ -98,4 +72,12 @@ public class GameBoard {
   public Set<Cell> liveCells() {
     return Collections.unmodifiableSet(cells);
   }
+
+	public static GameBoard seedWith(Cell... initialCells) {
+		GameBoard board = new GameBoard();
+		for (Cell cell: initialCells) {
+			board.addLiveCell(cell);
+		}
+		return board;
+	}
 }

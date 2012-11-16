@@ -1,7 +1,5 @@
 package pl.michalostruszka.gameoflife;
 
-import org.fest.assertions.api.Assertions;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.fest.assertions.api.Assertions.assertThat;
@@ -20,7 +18,7 @@ public class GameBoardTest {
 
   @Test
   public void emptyBoardShouldHaveNoLiveNeighboursForAnyCell() throws Exception {
-    int result = EMPTY_BOARD.countLiveNeighboursOf(Cell.atPosition(0, 0));
+    int result = EMPTY_BOARD.countLiveNeighboursOf(Cell.at(0, 0));
     assertThat(result).isZero();
   }
 
@@ -28,18 +26,18 @@ public class GameBoardTest {
   public void countLiveNeighboursForGivenCell() throws Exception {
     board.setLiveCellAt(1,0);
     board.setLiveCellAt(1,1);
-    int result = board.countLiveNeighboursOf(Cell.atPosition(0, 0));
+    int result = board.countLiveNeighboursOf(Cell.at(0, 0));
     assertThat(result).isEqualTo(2);
   }
 
   @Test
-  public void shouldEvaluateCurrentCellNeighboursOnNextBoard() throws Exception {
+  public void shouldEvaluateCurrentCellsOnNextBoard() throws Exception {
     board.setLiveCellAt(0, 0);
     board.setLiveCellAt(1, 0);
     board.setLiveCellAt(1, 1);
 
     GameBoard next = board.nextState();
 
-    assertThat(next.liveCells()).containsOnly(Cell.atPosition(0,0), Cell.atPosition(0,1), Cell.atPosition(1,1), Cell.atPosition(1,0));
+    assertThat(next.liveCells()).containsOnly(Cell.at(0, 0), Cell.at(0, 1), Cell.at(1, 1), Cell.at(1, 0));
   }
 }

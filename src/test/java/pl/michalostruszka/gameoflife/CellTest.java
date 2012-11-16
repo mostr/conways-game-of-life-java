@@ -11,19 +11,14 @@ import java.util.Set;
 import static org.fest.assertions.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
-/**
- * Created with IntelliJ IDEA.
- * User: mostruszka
- * Date: 16.11.12
- * Time: 11:05
- * To change this template use File | Settings | File Templates.
- */
 @RunWith(MockitoJUnitRunner.class)
 public class CellTest {
 
   @Mock
   private GameBoard board;
-  private static final Cell CURRENT_CELL = Cell.atPosition(0, 0);
+
+  private static final Cell CURRENT_CELL = Cell.at(0, 0);
+	private static final Set<Cell> CURRENT_CELL_NEIGHBOURS = currentCellNeighbours();
 
   @Test
   public void shouldReturnNewStateOfCellOnEvaluation() throws Exception {
@@ -33,22 +28,11 @@ public class CellTest {
 
   @Test
   public void shouldGenerateAllPossibleNeighboursPositions() throws Exception {
-    Set<Cell> expectedNeighbours = new HashSet<Cell>();
-    expectedNeighbours.add(Cell.atPosition(0, 1));
-    expectedNeighbours.add(Cell.atPosition(1, 1));
-    expectedNeighbours.add(Cell.atPosition(1, 0));
-    expectedNeighbours.add(Cell.atPosition(1, -1));
-    expectedNeighbours.add(Cell.atPosition(0, -1));
-    expectedNeighbours.add(Cell.atPosition(-1, -1));
-    expectedNeighbours.add(Cell.atPosition(-1, 0));
-    expectedNeighbours.add(Cell.atPosition(-1, 1));
-
     Set<Cell> neighbours = CURRENT_CELL.neighbours();
-
-    assertThat(neighbours).hasSameSizeAs(expectedNeighbours).containsAll(expectedNeighbours);
+    assertThat(neighbours).hasSameSizeAs(CURRENT_CELL_NEIGHBOURS).containsAll(CURRENT_CELL_NEIGHBOURS);
   }
 
-  @Test
+	@Test
   public void shouldDieWhenHasNoLiveNeighbours() throws Exception {
     isLiveForGivenLiveNeighbours(0);
   }
@@ -83,4 +67,14 @@ public class CellTest {
     Cell nextState = CURRENT_CELL.nextState(board);
     return nextState.isLive();
   }
+
+	private static Set<Cell> currentCellNeighbours() {
+		Set<Cell> expectedNeighbours = new HashSet<Cell>();
+		int[][] neighboursRelativeCoords = {{0, 1}, {1, 1}, {1, 0}, {1, -1}, {0, -1}, {-1, -1}, {-1, 0}, {-1, 1}};
+		for (int[] coords : neighboursRelativeCoords) {
+			expectedNeighbours.add(Cell.at(coords[0], coords[1]));
+		}
+		return expectedNeighbours;
+	}
+
 }
