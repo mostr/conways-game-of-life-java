@@ -1,6 +1,7 @@
 package pl.michalostruszka.gameoflife;
 
-import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created with IntelliJ IDEA.
@@ -30,6 +31,32 @@ public class Cell {
     return new Cell(x, y);
   }
 
+  public Cell nextState(GameBoard board) {
+    Cell nextState = new Cell(this);
+    int count = board.countLiveNeighboursOf(this);
+    if((count == 2 && this.isLive())|| count == 3) {
+      nextState.isLive = true;
+    } else {
+      nextState.isLive = false;
+    }
+    return nextState;
+  }
+
+  public Set<Cell> neighbours() {
+    Set<Cell> expectedNeighbours = new HashSet<Cell>();
+    int[][] neighboursRelativeCoords = {{0, 1}, {1, 1}, {1, 0}, {1, -1}, {0, -1}, {-1, -1}, {-1, 0}, {-1, 1}};
+    for (int[] relativeCoord : neighboursRelativeCoords) {
+      Cell cell = Cell.atPosition(this.x + relativeCoord[0], this.y + relativeCoord[1]);
+      cell.isLive = false;
+      expectedNeighbours.add(cell);
+    }
+    return expectedNeighbours;
+  }
+
+  public boolean isLive() {
+    return isLive;
+  }
+
   @Override
   public String toString() {
     return "(" + x + ", " + y + ")";
@@ -55,18 +82,4 @@ public class Cell {
     return result;
   }
 
-  public Cell evaluate(GameState state) {
-    Cell nextState = new Cell(this);
-    int count = state.countLiveNeighboursOf(this);
-    if(count == 2 || count == 3) {
-      nextState.isLive = true;
-    } else {
-      nextState.isLive = false;
-    }
-    return nextState;
-  }
-
-  public boolean isLive() {
-    return isLive;
-  }
 }

@@ -1,5 +1,6 @@
 package pl.michalostruszka.gameoflife;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.fest.assertions.api.Assertions.assertThat;
@@ -13,44 +14,44 @@ import static org.fest.assertions.api.Assertions.assertThat;
  */
 public class EndToEndTest {
 
-  public static final GameState EMPTY_STATE = new GameState();
+  public static final GameBoard EMPTY_BOARD = new GameBoard();
 
   @Test
   public void newGameShouldHaveEmptyState() throws Exception {
     GameOfLife game = new GameOfLife();
-    GameState currentState = game.currentState();
-    assertThat(currentState).isEqualTo(EMPTY_STATE);
+    GameBoard currentBoard = game.currentBoardState();
+    assertThat(currentBoard).isEqualTo(EMPTY_BOARD);
   }
 
   @Test
   public void gameShouldBeSeededWithInitialState() throws Exception {
     GameOfLife game = new GameOfLife(initialState());
-    GameState currentState = game.currentState();
-    assertThat(currentState).isEqualTo(initialState());
+    GameBoard currentBoard = game.currentBoardState();
+    assertThat(currentBoard).isEqualTo(initialState());
   }
 
   @Test
   public void gameShouldChangeStateAfterTimeTick() throws Exception {
-    GameState blinkerState = new GameState();
+    GameBoard blinkerState = new GameBoard();
     blinkerState.setLiveCellAt(0, 0);
     blinkerState.setLiveCellAt(0, 1);
     blinkerState.setLiveCellAt(0, -1);
 
     GameOfLife game = new GameOfLife(blinkerState);
 
-    GameState expectedState = new GameState();
+    GameBoard expectedState = new GameBoard();
     expectedState.setLiveCellAt(-1,0);
     expectedState.setLiveCellAt(0,0);
     expectedState.setLiveCellAt(1,0);
 
     game.tick();
-    GameState currentState = game.currentState();
+    GameBoard currentBoard = game.currentBoardState();
 
-    assertThat(currentState).isEqualTo(expectedState);
+    assertThat(currentBoard).isEqualTo(expectedState);
   }
 
-  private GameState initialState() {
-    GameState initialState = new GameState();
+  private GameBoard initialState() {
+    GameBoard initialState = new GameBoard();
     initialState.setLiveCellAt(0,0);
     initialState.setLiveCellAt(0,1);
     initialState.setLiveCellAt(0,2);

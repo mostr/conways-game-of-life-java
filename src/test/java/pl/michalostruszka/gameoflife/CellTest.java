@@ -5,6 +5,9 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import static org.fest.assertions.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
@@ -19,13 +22,30 @@ import static org.mockito.Mockito.when;
 public class CellTest {
 
   @Mock
-  private GameState state;
+  private GameBoard board;
   private static final Cell CURRENT_CELL = Cell.atPosition(0, 0);
 
   @Test
   public void shouldReturnNewStateOfCellOnEvaluation() throws Exception {
-    Cell nextState = CURRENT_CELL.evaluate(state);
+    Cell nextState = CURRENT_CELL.nextState(board);
     assertThat(nextState).isNotNull().isNotSameAs(CURRENT_CELL).isEqualTo(CURRENT_CELL);
+  }
+
+  @Test
+  public void shouldGenerateAllPossibleNeighboursPositions() throws Exception {
+    Set<Cell> expectedNeighbours = new HashSet<Cell>();
+    expectedNeighbours.add(Cell.atPosition(0, 1));
+    expectedNeighbours.add(Cell.atPosition(1, 1));
+    expectedNeighbours.add(Cell.atPosition(1, 0));
+    expectedNeighbours.add(Cell.atPosition(1, -1));
+    expectedNeighbours.add(Cell.atPosition(0, -1));
+    expectedNeighbours.add(Cell.atPosition(-1, -1));
+    expectedNeighbours.add(Cell.atPosition(-1, 0));
+    expectedNeighbours.add(Cell.atPosition(-1, 1));
+
+    Set<Cell> neighbours = CURRENT_CELL.neighbours();
+
+    assertThat(neighbours).hasSameSizeAs(expectedNeighbours).containsAll(expectedNeighbours);
   }
 
   @Test
@@ -59,8 +79,8 @@ public class CellTest {
   }
 
   private boolean isLiveForGivenLiveNeighbours(int count) {
-    when(state.countLiveNeighboursOf(CURRENT_CELL)).thenReturn(count);
-    Cell nextState = CURRENT_CELL.evaluate(state);
+    when(board.countLiveNeighboursOf(CURRENT_CELL)).thenReturn(count);
+    Cell nextState = CURRENT_CELL.nextState(board);
     return nextState.isLive();
   }
 }

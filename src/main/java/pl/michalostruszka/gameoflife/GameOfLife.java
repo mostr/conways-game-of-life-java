@@ -9,21 +9,22 @@ package pl.michalostruszka.gameoflife;
  */
 public class GameOfLife {
 
-  private GameState currentState;
+  private GameBoard currentState;
 
-  public GameOfLife(GameState initialState) {
+  public GameOfLife(GameBoard initialState) {
     currentState = initialState;
   }
 
   public GameOfLife() {
-    currentState = new GameState();
+    currentState = new GameBoard();
   }
 
-  public GameState currentState() {
+  public GameBoard currentBoardState() {
     return currentState;
   }
 
   public void tick() {
-    // TODO tick
+    this.currentState = currentState.nextState();
   }
+
 }
