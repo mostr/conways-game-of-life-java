@@ -3,21 +3,20 @@ package pl.michalostruszka.gameoflife;
 import java.util.HashSet;
 import java.util.Set;
 
-public class LiveCell {
-    private final Position position;
+public class LiveCell extends BaseCell {
     private boolean isLive;
 
-    private LiveCell(int x, int y) {
-        this.position = new Position(x, y);
-        this.isLive = true;
-    }
-
+    // when created from Position set it to dead status
     private LiveCell(Position srcPosition) {
-        this.position = srcPosition;
+        super(srcPosition);
+        this.isLive = false;
     }
 
+    // when created from coords set it to live status
     public static LiveCell at(int x, int y) {
-        return new LiveCell(x, y);
+        LiveCell cell = new LiveCell(new Position(x, y));
+        cell.isLive = true;
+        return cell;
     }
 
     public LiveCell nextState(Board board) {
