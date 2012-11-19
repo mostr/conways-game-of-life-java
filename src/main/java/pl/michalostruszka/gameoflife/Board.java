@@ -6,21 +6,25 @@ import java.util.Set;
 
 public class Board {
 
-    private Set<LiveCell> cells = new HashSet<LiveCell>();
+    private Set<LiveCell> liveCells = new HashSet<LiveCell>();
 
     public int countLiveNeighboursOf(LiveCell cell) {
-        Set<LiveCell> neighbours = cell.neighbours();
+        Set<Position> neighbours = cell.neighbours();
         int liveNeighbours = 0;
-        for (LiveCell neighbour : neighbours) {
-            if (cells.contains(neighbour)) {
-                liveNeighbours++;
+        for (Position neighbour : neighbours) {
+            for (LiveCell currentCell : liveCells) {
+                if(currentCell.isOnPosition(neighbour)) {
+                    liveNeighbours++;
+                }
             }
         }
         return liveNeighbours;
     }
 
+
+
     public Set<LiveCell> liveCells() {
-        return Collections.unmodifiableSet(cells);
+        return Collections.unmodifiableSet(liveCells);
     }
 
     public static Board seedWith(LiveCell... initialCells) {
@@ -33,7 +37,7 @@ public class Board {
 
     public Board nextState() {
         Board nextBoard = new Board();
-        for (LiveCell currentCell : cells) {
+        for (LiveCell currentCell : liveCells) {
             LiveCell nextCellState = currentCell.nextState(this);
             if (nextCellState.isLive()) {
                 nextBoard.addLiveCell(currentCell);
@@ -49,13 +53,13 @@ public class Board {
     }
 
     private void addLiveCell(LiveCell cell) {
-        cells.add(cell);
+        liveCells.add(cell);
     }
 
     @Override
     public String toString() {
         StringBuffer buffer = new StringBuffer("[");
-        for (LiveCell cell : cells) {
+        for (LiveCell cell : liveCells) {
             buffer.append(cell + ", ");
         }
         return buffer + "]";
@@ -66,7 +70,7 @@ public class Board {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Board board = (Board) o;
-        if (cells.size() == board.cells.size() && cells.containsAll(board.cells)) {
+        if (liveCells.size() == board.liveCells.size() && liveCells.containsAll(board.liveCells)) {
             return true;
         }
         return false;
@@ -74,7 +78,7 @@ public class Board {
 
     @Override
     public int hashCode() {
-        return cells != null ? cells.hashCode() : 0;
+        return liveCells != null ? liveCells.hashCode() : 0;
     }
 
 }

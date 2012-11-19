@@ -30,12 +30,12 @@ public class LiveCell extends BaseCell {
         return nextState;
     }
 
-    public Set<LiveCell> neighbours() {
-        Set<LiveCell> cells = new HashSet<LiveCell>();
+    public Set<Position> neighbours() {
+        Set<Position> neighbours = new HashSet<Position>();
         for (Position neighbour : position.neighbours()) {
-            cells.add(new LiveCell(neighbour));
+            neighbours.add(neighbour);
         }
-        return cells;
+        return neighbours;
     }
 
     public boolean isLive() {

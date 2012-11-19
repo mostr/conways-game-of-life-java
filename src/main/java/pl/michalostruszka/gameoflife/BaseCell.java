@@ -11,4 +11,7 @@ public class BaseCell {
         this.position = srcPosition;
     }
 
+    public boolean isOnPosition(Position expectedPosition) {
+        return this.position.equals(expectedPosition);
+    }
 }
