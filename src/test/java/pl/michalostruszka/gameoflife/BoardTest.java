@@ -11,21 +11,21 @@ public class BoardTest {
 
     @Test
     public void emptyBoardShouldHaveNoLiveNeighboursForAnyCell() throws Exception {
-        int result = EMPTY_BOARD.countLiveNeighboursOf(Cell.at(0, 0));
+        int result = EMPTY_BOARD.countLiveNeighboursOf(LiveCell.at(0, 0));
         assertThat(result).isZero();
     }
 
     @Test
     public void countLiveNeighboursForGivenCell() throws Exception {
-        board = Board.seedWith(Cell.at(1, 0), Cell.at(1, 1));
-        int result = board.countLiveNeighboursOf(Cell.at(0, 0));
+        board = Board.seedWith(LiveCell.at(1, 0), LiveCell.at(1, 1));
+        int result = board.countLiveNeighboursOf(LiveCell.at(0, 0));
         assertThat(result).isEqualTo(2);
     }
 
     @Test
     public void shouldEvaluateNextBoardState() throws Exception {
-        board = Board.seedWith(Cell.at(0, 0), Cell.at(1, 0), Cell.at(1, 1));
+        board = Board.seedWith(LiveCell.at(0, 0), LiveCell.at(1, 0), LiveCell.at(1, 1));
         Board next = board.nextState();
-        assertThat(next.liveCells()).containsOnly(Cell.at(0, 0), Cell.at(0, 1), Cell.at(1, 1), Cell.at(1, 0));
+        assertThat(next.liveCells()).containsOnly(LiveCell.at(0, 0), LiveCell.at(0, 1), LiveCell.at(1, 1), LiveCell.at(1, 0));
     }
 }

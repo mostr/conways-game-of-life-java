@@ -6,12 +6,12 @@ import java.util.Set;
 
 public class Board {
 
-    private Set<Cell> cells = new HashSet<Cell>();
+    private Set<LiveCell> cells = new HashSet<LiveCell>();
 
-    public int countLiveNeighboursOf(Cell cell) {
-        Set<Cell> neighbours = cell.neighbours();
+    public int countLiveNeighboursOf(LiveCell cell) {
+        Set<LiveCell> neighbours = cell.neighbours();
         int liveNeighbours = 0;
-        for (Cell neighbour : neighbours) {
+        for (LiveCell neighbour : neighbours) {
             if (cells.contains(neighbour)) {
                 liveNeighbours++;
             }
@@ -19,13 +19,13 @@ public class Board {
         return liveNeighbours;
     }
 
-    public Set<Cell> liveCells() {
+    public Set<LiveCell> liveCells() {
         return Collections.unmodifiableSet(cells);
     }
 
-    public static Board seedWith(Cell... initialCells) {
+    public static Board seedWith(LiveCell... initialCells) {
         Board board = new Board();
-        for (Cell cell : initialCells) {
+        for (LiveCell cell : initialCells) {
             board.addLiveCell(cell);
         }
         return board;
@@ -33,13 +33,13 @@ public class Board {
 
     public Board nextState() {
         Board nextBoard = new Board();
-        for (Cell currentCell : cells) {
-            Cell nextCellState = currentCell.nextState(this);
+        for (LiveCell currentCell : cells) {
+            LiveCell nextCellState = currentCell.nextState(this);
             if (nextCellState.isLive()) {
                 nextBoard.addLiveCell(currentCell);
             }
-            for (Cell ncell : currentCell.neighbours()) {
-                Cell nextNCell = ncell.nextState(this);
+            for (LiveCell ncell : currentCell.neighbours()) {
+                LiveCell nextNCell = ncell.nextState(this);
                 if (nextNCell.isLive()) {
                     nextBoard.addLiveCell(nextNCell);
                 }
@@ -48,14 +48,14 @@ public class Board {
         return nextBoard;
     }
 
-    private void addLiveCell(Cell cell) {
+    private void addLiveCell(LiveCell cell) {
         cells.add(cell);
     }
 
     @Override
     public String toString() {
         StringBuffer buffer = new StringBuffer("[");
-        for (Cell cell : cells) {
+        for (LiveCell cell : cells) {
             buffer.append(cell + ", ");
         }
         return buffer + "]";

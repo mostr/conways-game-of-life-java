@@ -12,23 +12,23 @@ import static org.fest.assertions.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class CellTest {
+public class LiveCellTest {
 
     @Mock
     private Board board;
 
-    private static final Cell CURRENT_CELL = Cell.at(0, 0);
-    private static final Set<Cell> CURRENT_CELL_NEIGHBOURS = currentCellNeighbours();
+    private static final LiveCell CURRENT_CELL = LiveCell.at(0, 0);
+    private static final Set<LiveCell> CURRENT_CELL_NEIGHBOURS = currentCellNeighbours();
 
     @Test
     public void shouldReturnNewStateOfCellOnEvaluation() throws Exception {
-        Cell nextState = CURRENT_CELL.nextState(board);
+        LiveCell nextState = CURRENT_CELL.nextState(board);
         assertThat(nextState).isNotNull().isNotSameAs(CURRENT_CELL).isEqualTo(CURRENT_CELL);
     }
 
     @Test
     public void shouldGenerateAllPossibleNeighboursPositions() throws Exception {
-        Set<Cell> neighbours = CURRENT_CELL.neighbours();
+        Set<LiveCell> neighbours = CURRENT_CELL.neighbours();
         assertThat(neighbours).hasSameSizeAs(CURRENT_CELL_NEIGHBOURS).containsAll(CURRENT_CELL_NEIGHBOURS);
     }
 
@@ -64,15 +64,15 @@ public class CellTest {
 
     private boolean isLiveForGivenLiveNeighbours(int count) {
         when(board.countLiveNeighboursOf(CURRENT_CELL)).thenReturn(count);
-        Cell nextState = CURRENT_CELL.nextState(board);
+        LiveCell nextState = CURRENT_CELL.nextState(board);
         return nextState.isLive();
     }
 
-    private static Set<Cell> currentCellNeighbours() {
-        Set<Cell> expectedNeighbours = new HashSet<Cell>();
+    private static Set<LiveCell> currentCellNeighbours() {
+        Set<LiveCell> expectedNeighbours = new HashSet<LiveCell>();
         int[][] neighboursRelativeCoords = {{0, 1}, {1, 1}, {1, 0}, {1, -1}, {0, -1}, {-1, -1}, {-1, 0}, {-1, 1}};
         for (int[] coords : neighboursRelativeCoords) {
-            expectedNeighbours.add(Cell.at(coords[0], coords[1]));
+            expectedNeighbours.add(LiveCell.at(coords[0], coords[1]));
         }
         return expectedNeighbours;
     }

@@ -3,25 +3,25 @@ package pl.michalostruszka.gameoflife;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Cell {
+public class LiveCell {
     private final Position position;
     private boolean isLive;
 
-    private Cell(int x, int y) {
+    private LiveCell(int x, int y) {
         this.position = new Position(x, y);
         this.isLive = true;
     }
 
-    private Cell(Position srcPosition) {
+    private LiveCell(Position srcPosition) {
         this.position = srcPosition;
     }
 
-    public static Cell at(int x, int y) {
-        return new Cell(x, y);
+    public static LiveCell at(int x, int y) {
+        return new LiveCell(x, y);
     }
 
-    public Cell nextState(Board board) {
-        Cell nextState = new Cell(this.position);
+    public LiveCell nextState(Board board) {
+        LiveCell nextState = new LiveCell(this.position);
         int count = board.countLiveNeighboursOf(this);
         if ((count == 2 && this.isLive()) || count == 3) {
             nextState.isLive = true;
@@ -31,10 +31,10 @@ public class Cell {
         return nextState;
     }
 
-    public Set<Cell> neighbours() {
-        Set<Cell> cells = new HashSet<Cell>();
+    public Set<LiveCell> neighbours() {
+        Set<LiveCell> cells = new HashSet<LiveCell>();
         for (Position neighbour : position.neighbours()) {
-            cells.add(new Cell(neighbour));
+            cells.add(new LiveCell(neighbour));
         }
         return cells;
     }
@@ -47,7 +47,7 @@ public class Cell {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Cell cell = (Cell) o;
+        LiveCell cell = (LiveCell) o;
         if (position != null ? !position.equals(cell.position) : cell.position != null) return false;
         return true;
     }

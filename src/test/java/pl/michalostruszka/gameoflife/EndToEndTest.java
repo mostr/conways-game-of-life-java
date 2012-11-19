@@ -7,10 +7,10 @@ import static org.fest.assertions.api.Assertions.assertThat;
 public class EndToEndTest {
 
     public static final Board EMPTY_BOARD = new Board();
-    public static final Board SAMPLE_INITIAL_STATE = Board.seedWith(Cell.at(0, 0), Cell.at(1, 0));
+    public static final Board SAMPLE_INITIAL_STATE = Board.seedWith(LiveCell.at(0, 0), LiveCell.at(1, 0));
 
-    public static final Board FIRST_BLINKER_STATE = Board.seedWith(Cell.at(0, 1), Cell.at(0, 0), Cell.at(0, -1));
-    public static final Board SECOND_BLINKER_STATE = Board.seedWith(Cell.at(-1, 0), Cell.at(0, 0), Cell.at(1, 0));
+    public static final Board FIRST_BLINKER_STATE = Board.seedWith(LiveCell.at(0, 1), LiveCell.at(0, 0), LiveCell.at(0, -1));
+    public static final Board SECOND_BLINKER_STATE = Board.seedWith(LiveCell.at(-1, 0), LiveCell.at(0, 0), LiveCell.at(1, 0));
 
 
     @Test
