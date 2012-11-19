@@ -4,20 +4,16 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Cell {
-    private final int x;
-    private final int y;
+    private final Position position;
     private boolean isLive;
 
     private Cell(int x, int y) {
-        this.x = x;
-        this.y = y;
+        this.position = new Position(x, y);
         this.isLive = true;
     }
 
-    private Cell(Cell fromCell) {
-        this.x = fromCell.x;
-        this.y = fromCell.y;
-        this.isLive = fromCell.isLive;
+    private Cell(Position srcPosition) {
+        this.position = srcPosition;
     }
 
     public static Cell at(int x, int y) {
@@ -25,7 +21,7 @@ public class Cell {
     }
 
     public Cell nextState(Board board) {
-        Cell nextState = new Cell(this);
+        Cell nextState = new Cell(this.position);
         int count = board.countLiveNeighboursOf(this);
         if ((count == 2 && this.isLive()) || count == 3) {
             nextState.isLive = true;
@@ -36,14 +32,11 @@ public class Cell {
     }
 
     public Set<Cell> neighbours() {
-        Set<Cell> expectedNeighbours = new HashSet<Cell>();
-        int[][] neighboursRelativeCoords = {{0, 1}, {1, 1}, {1, 0}, {1, -1}, {0, -1}, {-1, -1}, {-1, 0}, {-1, 1}};
-        for (int[] relativeCoord : neighboursRelativeCoords) {
-            Cell cell = Cell.at(this.x + relativeCoord[0], this.y + relativeCoord[1]);
-            cell.isLive = false;
-            expectedNeighbours.add(cell);
+        Set<Cell> cells = new HashSet<Cell>();
+        for (Position neighbour : position.neighbours()) {
+            cells.add(new Cell(neighbour));
         }
-        return expectedNeighbours;
+        return cells;
     }
 
     public boolean isLive() {
@@ -51,28 +44,16 @@ public class Cell {
     }
 
     @Override
-    public String toString() {
-        return "(" + x + ", " + y + ")";
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Cell cell = (Cell) o;
-
-        if (x != cell.x) return false;
-        if (y != cell.y) return false;
-
+        if (position != null ? !position.equals(cell.position) : cell.position != null) return false;
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = x;
-        result = 31 * result + y;
-        return result;
+        return position != null ? position.hashCode() : 0;
     }
-
 }
