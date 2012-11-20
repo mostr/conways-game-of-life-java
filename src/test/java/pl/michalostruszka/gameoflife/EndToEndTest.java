@@ -13,6 +13,8 @@ public class EndToEndTest {
 
     public static final Board FIRST_BLINKER_STATE = Board.seedWith(LiveCell.at(0, 1), LiveCell.at(0, 0), LiveCell.at(0, -1));
     public static final Board SECOND_BLINKER_STATE = Board.seedWith(LiveCell.at(-1, 0), LiveCell.at(0, 0), LiveCell.at(1, 0));
+    private static final Board GLIDER_INITIAL_STATE = Board.seedWith(LiveCell.at(0, 0), LiveCell.at(1, 0), LiveCell.at(2, 0), LiveCell.at(2, 1), LiveCell.at(1, 2));
+    private static final Board GLIDER_STATE_AFTER_5_TICKS = Board.seedWith(LiveCell.at(1, 0), LiveCell.at(2, -1), LiveCell.at(2, -2), LiveCell.at(3, 0), LiveCell.at(3, -1));
 
 
     @Test
@@ -29,6 +31,14 @@ public class EndToEndTest {
     }
 
     @Test
+    public void runningGameWithEmptyBoardCausesNoStateChange() throws Exception {
+        GameOfLife gameWithEmptyBoard = new GameOfLife(EMPTY_BOARD);
+        gameWithEmptyBoard.tick(10);
+        assertThat(gameWithEmptyBoard.currentBoardState()).isEqualTo(EMPTY_BOARD);
+
+    }
+
+    @Test
     public void gameShouldChangeBlinkerStateAfterTimeTicks() throws Exception {
         GameOfLife game = new GameOfLife(FIRST_BLINKER_STATE);
         game.tick(1);
@@ -40,6 +50,13 @@ public class EndToEndTest {
         GameOfLife game = new GameOfLife(FIRST_BLINKER_STATE);
         game.tick(2);
         assertThat(game.currentBoardState()).isEqualTo(FIRST_BLINKER_STATE);
+    }
+
+    @Test
+    public void gliderChangesStateAfterFiveTicks() throws Exception {
+        GameOfLife game = new GameOfLife(GLIDER_INITIAL_STATE);
+        game.tick(5);
+        assertThat(game.currentBoardState()).isEqualTo(GLIDER_STATE_AFTER_5_TICKS);
     }
 
 }
