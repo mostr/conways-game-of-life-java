@@ -23,6 +23,6 @@ public abstract class BaseCell {
         return neighbours;
     }
 
-    public abstract BaseCell nextState(Board board);
+    public abstract BaseCell evolveIntoNewState(Board board);
 
 }

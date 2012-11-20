@@ -38,13 +38,12 @@ public class Board {
     public Board nextState() {
         Board nextBoard = new Board();
         for (LiveCell currentCell : liveCells) {
-            BaseCell nextCellState = currentCell.nextState(this);
+            BaseCell nextCellState = currentCell.evolveIntoNewState(this);
             if (nextCellState instanceof LiveCell) {
                 nextBoard.addLiveCell((LiveCell) nextCellState);
             }
             for (Position neighbourPosition: currentCell.neighbours()) {
-                BaseCell cell = createFromPosition(neighbourPosition);
-                BaseCell nextNeighbourState = cell.nextState(this);
+                BaseCell nextNeighbourState = createCellFromPosition(neighbourPosition).evolveIntoNewState(this);
                 if (nextNeighbourState instanceof LiveCell) {
                     nextBoard.addLiveCell((LiveCell) nextNeighbourState);
                 }
@@ -53,7 +52,7 @@ public class Board {
         return nextBoard;
     }
 
-    private BaseCell createFromPosition(Position neighbourPosition) {
+    private BaseCell createCellFromPosition(Position neighbourPosition) {
         for (LiveCell currentCell : liveCells) {
             if(currentCell.isOnPosition(neighbourPosition)) {
                 return new LiveCell(neighbourPosition);

@@ -58,7 +58,7 @@ public class LiveCellTest {
 
     private boolean isLiveForGivenLiveNeighbours(int count) {
         when(board.countLiveNeighboursOf(CURRENT_CELL)).thenReturn(count);
-        BaseCell nextState = CURRENT_CELL.nextState(board);
+        BaseCell nextState = CURRENT_CELL.evolveIntoNewState(board);
         return nextState instanceof LiveCell;
     }
 
