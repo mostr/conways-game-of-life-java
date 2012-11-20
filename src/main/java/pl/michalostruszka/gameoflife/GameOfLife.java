@@ -1,5 +1,7 @@
 package pl.michalostruszka.gameoflife;
 
+import pl.michalostruszka.gameoflife.board.Board;
+
 public class GameOfLife {
 
     private Board currentState;

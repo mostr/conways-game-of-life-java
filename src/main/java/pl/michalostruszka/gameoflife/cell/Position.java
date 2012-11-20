@@ -1,4 +1,4 @@
-package pl.michalostruszka.gameoflife;
+package pl.michalostruszka.gameoflife.cell;
 
 import java.util.HashSet;
 import java.util.Set;

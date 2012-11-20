@@ -1,13 +1,25 @@
-package pl.michalostruszka.gameoflife;
+package pl.michalostruszka.gameoflife.cell;
 
-public class DeadCell extends BaseCell {
+import pl.michalostruszka.gameoflife.board.Board;
 
-    public DeadCell(Position neighbourPosition) {
-        super(neighbourPosition);
+public class DeadCell extends Cell {
+
+    public DeadCell(Position position) {
+        super(position);
     }
 
-    public BaseCell evolveIntoNewState(Board board) {
+    public Cell evolveIntoNewState(Board board) {
         int count = board.countLiveNeighboursOf(this);
+        return newStateDependingOnNeighboursCount(count);
+    }
+
+    @Override
+    public void attachToBoard(Board board) {
+        // nothing to do, dead cells are not attached to board
+    }
+
+    @Override
+    protected Cell newStateDependingOnNeighboursCount(int count) {
         if (count == 3) {
             return new LiveCell(this.position);
         }

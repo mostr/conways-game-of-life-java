@@ -1,6 +1,8 @@
 package pl.michalostruszka.gameoflife;
 
 import org.junit.Test;
+import pl.michalostruszka.gameoflife.board.Board;
+import pl.michalostruszka.gameoflife.cell.LiveCell;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
@@ -34,7 +36,7 @@ public class EndToEndTest {
     }
 
     @Test
-    public void gameShouldChangeStateAfterTimeTicksTwice() throws Exception {
+    public void gameShouldChangeBlinkerStateBackAfterTimeTicksTwice() throws Exception {
         GameOfLife game = new GameOfLife(FIRST_BLINKER_STATE);
         game.tick(2);
         assertThat(game.currentBoardState()).isEqualTo(FIRST_BLINKER_STATE);

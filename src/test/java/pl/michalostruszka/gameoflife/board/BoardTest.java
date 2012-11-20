@@ -1,6 +1,8 @@
-package pl.michalostruszka.gameoflife;
+package pl.michalostruszka.gameoflife.board;
 
 import org.junit.Test;
+import pl.michalostruszka.gameoflife.board.Board;
+import pl.michalostruszka.gameoflife.cell.LiveCell;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 

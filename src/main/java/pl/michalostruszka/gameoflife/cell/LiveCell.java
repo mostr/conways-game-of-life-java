@@ -1,6 +1,8 @@
-package pl.michalostruszka.gameoflife;
+package pl.michalostruszka.gameoflife.cell;
 
-public class LiveCell extends BaseCell {
+import pl.michalostruszka.gameoflife.board.Board;
+
+public class LiveCell extends Cell {
 
     public LiveCell(Position srcPosition) {
         super(srcPosition);
@@ -11,12 +13,21 @@ public class LiveCell extends BaseCell {
         return cell;
     }
 
-    public BaseCell evolveIntoNewState(Board board) {
+    public Cell evolveIntoNewState(Board board) {
         int count = board.countLiveNeighboursOf(this);
+        return newStateDependingOnNeighboursCount(count);
+    }
+
+    protected Cell newStateDependingOnNeighboursCount(int count) {
         if (count == 2 || count == 3) {
             return new LiveCell(this.position);
         }
         return new DeadCell(this.position);
+    }
+
+    @Override
+    public void attachToBoard(Board board) {
+        board.bringCellToLife(this);
     }
 
     @Override
@@ -32,4 +43,5 @@ public class LiveCell extends BaseCell {
     public int hashCode() {
         return position != null ? position.hashCode() : 0;
     }
+
 }
