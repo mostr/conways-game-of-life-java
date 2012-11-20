@@ -18,17 +18,11 @@ public class LiveCellTest {
     private Board board;
 
     private static final LiveCell CURRENT_CELL = LiveCell.at(0, 0);
-    private static final Set<LiveCell> CURRENT_CELL_NEIGHBOURS = currentCellNeighbours();
-
-    @Test
-    public void shouldReturnNewStateOfCellOnEvaluation() throws Exception {
-        LiveCell nextState = CURRENT_CELL.nextState(board);
-        assertThat(nextState).isNotNull().isNotSameAs(CURRENT_CELL).isEqualTo(CURRENT_CELL);
-    }
+    private static final Set<Position> CURRENT_CELL_NEIGHBOURS = currentCellNeighbours();
 
     @Test
     public void shouldGenerateAllPossibleNeighboursPositions() throws Exception {
-        Set<LiveCell> neighbours = CURRENT_CELL.neighbours();
+        Set<Position> neighbours = CURRENT_CELL.neighbours();
         assertThat(neighbours).hasSameSizeAs(CURRENT_CELL_NEIGHBOURS).containsAll(CURRENT_CELL_NEIGHBOURS);
     }
 
@@ -64,15 +58,15 @@ public class LiveCellTest {
 
     private boolean isLiveForGivenLiveNeighbours(int count) {
         when(board.countLiveNeighboursOf(CURRENT_CELL)).thenReturn(count);
-        LiveCell nextState = CURRENT_CELL.nextState(board);
-        return nextState.isLive();
+        BaseCell nextState = CURRENT_CELL.nextState(board);
+        return nextState instanceof LiveCell;
     }
 
-    private static Set<LiveCell> currentCellNeighbours() {
-        Set<LiveCell> expectedNeighbours = new HashSet<LiveCell>();
+    private static Set<Position> currentCellNeighbours() {
+        Set<Position> expectedNeighbours = new HashSet<Position>();
         int[][] neighboursRelativeCoords = {{0, 1}, {1, 1}, {1, 0}, {1, -1}, {0, -1}, {-1, -1}, {-1, 0}, {-1, 1}};
         for (int[] coords : neighboursRelativeCoords) {
-            expectedNeighbours.add(LiveCell.at(coords[0], coords[1]));
+            expectedNeighbours.add(new Position(coords[0], coords[1]));
         }
         return expectedNeighbours;
     }

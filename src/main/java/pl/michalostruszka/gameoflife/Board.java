@@ -8,7 +8,7 @@ public class Board {
 
     private Set<LiveCell> liveCells = new HashSet<LiveCell>();
 
-    public int countLiveNeighboursOf(LiveCell cell) {
+    public int countLiveNeighboursOf(BaseCell cell) {
         Set<Position> neighbours = cell.neighbours();
         int liveNeighbours = 0;
         for (Position neighbour : neighbours) {
@@ -38,18 +38,28 @@ public class Board {
     public Board nextState() {
         Board nextBoard = new Board();
         for (LiveCell currentCell : liveCells) {
-            LiveCell nextCellState = currentCell.nextState(this);
-            if (nextCellState.isLive()) {
-                nextBoard.addLiveCell(currentCell);
+            BaseCell nextCellState = currentCell.nextState(this);
+            if (nextCellState instanceof LiveCell) {
+                nextBoard.addLiveCell((LiveCell) nextCellState);
             }
-            for (LiveCell ncell : currentCell.neighbours()) {
-                LiveCell nextNCell = ncell.nextState(this);
-                if (nextNCell.isLive()) {
-                    nextBoard.addLiveCell(nextNCell);
+            for (Position neighbourPosition: currentCell.neighbours()) {
+                BaseCell cell = createFromPosition(neighbourPosition);
+                BaseCell nextNeighbourState = cell.nextState(this);
+                if (nextNeighbourState instanceof LiveCell) {
+                    nextBoard.addLiveCell((LiveCell) nextNeighbourState);
                 }
             }
         }
         return nextBoard;
+    }
+
+    private BaseCell createFromPosition(Position neighbourPosition) {
+        for (LiveCell currentCell : liveCells) {
+            if(currentCell.isOnPosition(neighbourPosition)) {
+                return new LiveCell(neighbourPosition);
+            }
+        }
+        return new DeadCell(neighbourPosition);
     }
 
     private void addLiveCell(LiveCell cell) {

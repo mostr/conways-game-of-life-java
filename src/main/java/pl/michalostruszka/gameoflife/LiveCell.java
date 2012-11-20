@@ -7,7 +7,7 @@ public class LiveCell extends BaseCell {
     private boolean isLive;
 
     // when created from Position set it to dead status
-    private LiveCell(Position srcPosition) {
+    public LiveCell(Position srcPosition) {
         super(srcPosition);
         this.isLive = false;
     }
@@ -19,23 +19,12 @@ public class LiveCell extends BaseCell {
         return cell;
     }
 
-    public LiveCell nextState(Board board) {
-        LiveCell nextState = new LiveCell(this.position);
+    public BaseCell nextState(Board board) {
         int count = board.countLiveNeighboursOf(this);
-        if ((count == 2 && this.isLive()) || count == 3) {
-            nextState.isLive = true;
-        } else {
-            nextState.isLive = false;
+        if (count == 2 || count == 3) {
+            return new LiveCell(this.position);
         }
-        return nextState;
-    }
-
-    public Set<Position> neighbours() {
-        Set<Position> neighbours = new HashSet<Position>();
-        for (Position neighbour : position.neighbours()) {
-            neighbours.add(neighbour);
-        }
-        return neighbours;
+        return new DeadCell(this.position);
     }
 
     public boolean isLive() {
